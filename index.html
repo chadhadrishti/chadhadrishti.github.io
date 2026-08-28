@@ -169,6 +169,21 @@
   .pill-row{ display:flex; flex-wrap:wrap; gap:8px; }
   .pill{ font-size:12.5px; font-family:'Space Mono',monospace; padding:6px 11px; border:1px solid var(--ink); background:var(--card); color:var(--ink); }
 
+  /* ---------- BLOG ---------- */
+  .blog-list{ border-top:2px solid var(--ink); }
+  .blog-row{
+    display:flex; justify-content:space-between; align-items:baseline; gap:24px;
+    padding:26px 4px; border-bottom:2px solid var(--ink); text-decoration:none; color:var(--ink);
+    flex-wrap:wrap;
+  }
+  .blog-row:hover{ background:var(--card); }
+  .blog-row-main h3{ font-size:21px; margin:0 0 8px; font-weight:600; }
+  .blog-row-main p{ margin:0; font-size:15px; color:#3a372f; max-width:560px; line-height:1.55; }
+  .blog-row-meta{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; flex-shrink:0; }
+  .blog-row-meta span{ font-size:12px; color:#5c5848; }
+  .blog-row-meta .blog-arrow{ color:var(--rust); font-weight:700; }
+  .blog-row:hover .blog-arrow{ text-decoration:underline; }
+
   /* ---------- CONTACT ---------- */
   .contact-grid{ display:grid; grid-template-columns:6fr 6fr; gap:0; border:2px solid var(--ink); }
   @media (max-width:700px){ .contact-grid{ grid-template-columns:1fr; } }
@@ -212,6 +227,7 @@
       <li><a href="#work">Work</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#blog">Blog</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a class="resume-btn" href="assets/Drishti_Chadha_Resume.pdf" target="_blank" rel="noopener">Résumé ↓</a></li>
     </ul>
@@ -637,10 +653,43 @@
     </div>
   </section>
 
-  <section id="contact">
+  <section id="blog">
     <div class="wrap">
       <div class="section-head">
         <span class="section-num mono">04</span>
+        <h2 class="section-title">Notes from the field.</h2>
+        <p class="section-note">Short write-ups on shipping data &amp; AI products — more as I write them.</p>
+      </div>
+
+      <div class="blog-list">
+        <a class="blog-row" href="blog/supply-chain-control-towers-bias-and-scale.html">
+          <div class="blog-row-main">
+            <h3>What it actually takes to run supply chain on one data platform</h3>
+            <p>Project management notes from standing up procurement, warehouse, and sales-forecast control towers on a common data model — and why fixing forecast bias mattered more than chasing accuracy.</p>
+          </div>
+          <div class="blog-row-meta">
+            <span class="mono">Aug 2026</span>
+            <span class="mono blog-arrow">Read →</span>
+          </div>
+        </a>
+        <a class="blog-row" href="blog/fleet-analytics-to-databricks-lakehouse.html">
+          <div class="blog-row-main">
+            <h3>Cutting fleet analytics costs by collapsing the stack, not trimming it</h3>
+            <p>How replacing a four-service Azure reporting stack with a Databricks Lakehouse cut projected infrastructure spend by roughly 30% — and set up the platform for both batch and streaming.</p>
+          </div>
+          <div class="blog-row-meta">
+            <span class="mono">Aug 2026</span>
+            <span class="mono blog-arrow">Read →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num mono">05</span>
         <h2 class="section-title">Let's talk.</h2>
       </div>
       <div class="contact-grid">
@@ -661,7 +710,7 @@
   <section class="appendix">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-num mono">05</span>
+        <span class="section-num mono">06</span>
         <h2 class="section-title">For search engines &amp; ATS parsers.</h2>
       </div>
       <p class="lede">Everything above, flattened into keywords. Humans can stop scrolling here.</p>

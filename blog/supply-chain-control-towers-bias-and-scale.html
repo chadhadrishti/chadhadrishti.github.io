@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What it actually takes to run supply chain on one data platform — Drishti Chadha</title>
+<meta name="description" content="Project management lessons from standing up procurement, warehouse, and sales-forecast control towers — plus the demand-planning bias fix and the Databricks platform underneath it all.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFEBE1; --paper-2:#E4DECE; --ink:#141210; --rust:#B5401F;
+    --navy:#243B55; --hair:#c9c2ae; --card:#F7F4EC;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:'Plus Jakarta Sans', sans-serif; font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:'Newsreader', serif; }
+  .mono{ font-family:'Space Mono', monospace; }
+  a{ color:var(--navy); }
+  ::selection{ background:var(--rust); color:var(--paper); }
+
+  header.site{ border-bottom:2px solid var(--ink); }
+  .masthead-top{ display:flex; justify-content:space-between; padding:10px 32px; max-width:760px; margin:0 auto; font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:#4a463d; }
+  .navbar{ display:flex; align-items:flex-end; justify-content:space-between; padding:6px 32px 18px; max-width:760px; margin:0 auto; border-top:1px solid var(--hair); flex-wrap:wrap; gap:14px; }
+  .logo{ font-family:'Newsreader', serif; font-weight:700; font-size:24px; text-decoration:none; color:var(--ink); }
+  .back-link{ font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; text-decoration:none; color:var(--ink); }
+  .back-link:hover{ color:var(--rust); }
+
+  main{ max-width:760px; margin:0 auto; padding:48px 32px 80px; }
+  .post-kicker{ font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:var(--rust); margin-bottom:18px; display:flex; gap:12px; align-items:center; }
+  .post-kicker::before{ content:""; width:22px; height:1px; background:var(--rust); display:inline-block; }
+  h1.post-title{ font-size:clamp(30px,4.5vw,44px); line-height:1.08; font-weight:600; margin:0 0 18px; letter-spacing:-0.01em; }
+  .post-dek{ font-size:19px; color:#3a372f; margin:0 0 34px; line-height:1.55; }
+  .post-meta{ display:flex; gap:18px; flex-wrap:wrap; font-family:'Space Mono',monospace; font-size:12px; color:#5c5848; border-top:1px solid var(--hair); border-bottom:1px solid var(--hair); padding:14px 0; margin-bottom:40px; }
+
+  article p{ margin:0 0 22px; font-size:17px; }
+  article h2{ font-size:24px; margin:44px 0 16px; font-weight:600; }
+  article h3{ font-size:19px; margin:32px 0 12px; font-weight:600; }
+  article ul, article ol{ margin:0 0 22px; padding-left:22px; }
+  article li{ margin-bottom:8px; }
+  article blockquote{
+    margin:32px 0; padding:4px 0 4px 22px; border-left:3px solid var(--rust);
+    font-family:'Newsreader',serif; font-style:italic; font-size:19px; color:#2c291f;
+  }
+  article strong{ color:var(--navy); }
+  .pull{
+    font-family:'Newsreader',serif; font-size:24px; line-height:1.4; margin:36px 0;
+    padding:20px 0; border-top:2px solid var(--ink); border-bottom:2px solid var(--ink);
+  }
+  code{ font-family:'Space Mono',monospace; background:var(--card); border:1px solid var(--hair); padding:1px 6px; font-size:14px; }
+
+  .stat-row{ display:flex; gap:16px; flex-wrap:wrap; margin:0 0 34px; }
+  .stat{ flex:1 1 140px; background:var(--card); border:1px solid var(--hair); padding:16px 18px; }
+  .stat .num{ font-family:'Newsreader',serif; font-size:26px; font-weight:600; color:var(--rust); line-height:1.1; }
+  .stat .label{ font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; color:#5c5848; margin-top:6px; }
+
+  .post-footer{ margin-top:56px; padding-top:24px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .post-footer a{ font-family:'Space Mono',monospace; font-size:12.5px; text-transform:uppercase; letter-spacing:0.05em; text-decoration:none; }
+  .post-footer a:hover{ color:var(--rust); }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="masthead-top">
+    <span>Notes from the field</span>
+    <span>Drishti Chadha</span>
+  </div>
+  <div class="navbar">
+    <a href="../index.html" class="logo">Drishti Chadha</a>
+    <a class="back-link" href="../index.html#blog">← Back to all posts</a>
+  </div>
+</header>
+
+<main>
+  <article>
+    <span class="post-kicker">Supply chain &amp; data platforms</span>
+    <h1 class="post-title">What it actually takes to run supply chain on one data platform</h1>
+    <p class="post-dek">Project management notes from standing up procurement, warehouse, and sales-forecast control towers on a common data model — and why fixing forecast bias mattered more than chasing forecast accuracy.</p>
+    <div class="post-meta">
+      <span>Aug 2026</span>
+      <span>·</span>
+      <span>8 min read</span>
+      <span>·</span>
+      <span>Drishti Chadha</span>
+    </div>
+
+    <p>Most supply chain teams I've worked with don't have a data problem in the sense of "not enough data." They have five systems — ERP, SCM, TMS, WMS, a planning tool — that each have their own version of the truth, and nobody trusts the number in the Monday morning meeting because everyone can point to a different dashboard that disagrees with it. The technical fix is a common data model. The hard part is everything around it: getting procurement, warehouse ops, and demand planning to agree on what a "unit" even means before you write a line of code.</p>
+
+    <p>Here's what that program actually looked like, across three fronts — project management, warehouse operations, and sales forecast accuracy — and the bias problem that turned out to matter more than the accuracy metric everyone was fixated on.</p>
+
+    <h2>Project management: control towers, not dashboards</h2>
+    <p>The instinct on most of these programs is to start with a dashboard. We started with a data model instead — one spine running from factory and supplier through VMI/RM store, warehouse, distributor, and customer/POS, with every control tower (procurement, logistics, inventory, demand, manufacturing) reading from the same source instead of running its own extract.</p>
+
+    <p>That ordering mattered for how I sequenced the program. We used a foundational → incremental → transformational structure: get the reusable data assets and the ERP/TMS/WMS connections solid first, then layer in reporting and predictive use cases, and only then let teams ask for the agentic, recommend-and-quantify capabilities everyone actually wanted on day one. Every time a stakeholder pushed to skip ahead to the AI layer, the conversation came back to the same point — the recommendation engine is only as good as the common data model underneath it, and that's not a shortcut-able step.</p>
+
+    <h3>The messiest part: warehouse</h3>
+    <p>Warehouse was the domain with the most operational debt. Before the control tower went live, "how much inventory do we actually have" required someone to reconcile factory, in-transit, warehouse, quality-hold, and distributor numbers by hand. Once we had end-to-end inventory visibility, the picture got a lot less comfortable, in a useful way:</p>
+
+    <div class="stat-row">
+      <div class="stat"><div class="num">700K+</div><div class="label">cases of unallocated inventory surfaced</div></div>
+      <div class="stat"><div class="num">578K+</div><div class="label">cases of unallocated demand identified</div></div>
+      <div class="stat"><div class="num">254K+</div><div class="label">cases flagged as expired or near-expiry</div></div>
+      <div class="stat"><div class="num">1.28M</div><div class="label">cases sitting at high days-of-inventory</div></div>
+    </div>
+
+    <p>None of those numbers were new problems — they were problems that had been invisible because they lived in the gap between systems. Once they were visible in one place, the conversation with the warehouse team shifted from "which report is right" to "which of these do we fix first," which is a much shorter meeting.</p>
+
+    <h2>Sales forecast accuracy and the bias problem</h2>
+    <p>Every planning team I've worked with tracks forecast accuracy. Fewer track forecast <strong>bias</strong> — whether the model is consistently over- or under-forecasting in the same direction — and that distinction turned out to be the more useful lever.</p>
+
+    <p>Accuracy tells you how far off you were on average. Bias tells you whether you can trust the direction of the next forecast. A brand running at 75% SFA-to-order with a 6% positive bias isn't randomly wrong 25% of the time — it's systematically over-forecasting, which means every downstream re-order point, safety stock calculation, and production plan built on it inherits the same skew. We built the SFA &amp; Bias dashboard specifically to separate those two signals, tracking both against target bands (roughly ±5% on bias, 75%+ on SFA) by brand, segment, and DC, instead of reporting one blended accuracy number that hid which direction things were drifting.</p>
+
+    <div class="pull">A forecast that's 75% accurate but consistently biased in one direction is a solvable problem. A forecast that's 75% accurate with no visible bias pattern is a much harder one — and you can't tell the difference without measuring bias separately.</div>
+
+    <p>That distinction changed how planners reacted to the dashboard. Instead of chasing a single accuracy KPI, they could see which SKUs, DCs, or promotional windows were driving a directional skew and correct the input assumption — a promo uplift factor, a lead-time buffer — rather than re-running the whole forecast model and hoping it landed closer next time.</p>
+
+    <h2>The part that actually gets counted: hours back</h2>
+    <p>The dashboards get the attention in stakeholder reviews, but the time savings usually come from a less visible layer — the natural-language and automation work sitting on top of the data model. A conversational decision-intelligence layer we built on top of the common data model cut time-to-insight for root-cause questions ("why did case fill drop for this SKU in this DC last period") by around 90%, turning what used to be a half-day pull-and-reconcile exercise into a direct question with a sourced answer. A parallel effort automating document comparison for quality and compliance checks — matching invoices, packing lists, and bills of entry against source documents — cut that review time by about 75%.</p>
+
+    <p>Multiply either of those across a planning or procurement team running the same checks every week, and the hours add up faster than any single dashboard ever will.</p>
+
+    <h2>The platform underneath all of it</h2>
+    <p>None of the above works without the unglamorous layer: a common data platform, built on Azure Databricks, with Unity Catalog governing who can see what across procurement, logistics, inventory, and demand data. Bronze holds source-aligned data straight out of ERP, SCM, TMS, and WMS; Silver cleans and conforms it; Gold is what the control towers and dashboards actually query. That structure is what let us onboard new regions without re-architecting — the platform now runs as the common data layer for teams across North America, Europe, the UK, and Asia-Pacific, serving upwards of <strong>1,500 users globally</strong> off the same governed source of truth.</p>
+
+    <p>That's the part I'd tell anyone starting a similar program: the AI layer is the part people ask for, but the platform underneath it — the thing nobody notices when it's working — is the part that determines whether any of it holds up at scale.</p>
+  </article>
+
+  <div class="post-footer">
+    <a href="../index.html#blog">← All posts</a>
+    <a href="mailto:drishtichadhaa@gmail.com">Email me about this →</a>
+  </div>
+</main>
+
+</body>
+</html>

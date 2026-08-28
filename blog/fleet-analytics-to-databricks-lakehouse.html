@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cutting fleet analytics costs by collapsing the stack, not trimming it — Drishti Chadha</title>
+<meta name="description" content="How replacing a four-service Azure reporting stack with a Databricks Lakehouse cut projected analytics infrastructure spend by roughly 30% — and set up the platform for both batch and streaming.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFEBE1; --paper-2:#E4DECE; --ink:#141210; --rust:#B5401F;
+    --navy:#243B55; --hair:#c9c2ae; --card:#F7F4EC;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:'Plus Jakarta Sans', sans-serif; font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:'Newsreader', serif; }
+  .mono{ font-family:'Space Mono', monospace; }
+  a{ color:var(--navy); }
+  ::selection{ background:var(--rust); color:var(--paper); }
+
+  header.site{ border-bottom:2px solid var(--ink); }
+  .masthead-top{ display:flex; justify-content:space-between; padding:10px 32px; max-width:760px; margin:0 auto; font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:#4a463d; }
+  .navbar{ display:flex; align-items:flex-end; justify-content:space-between; padding:6px 32px 18px; max-width:760px; margin:0 auto; border-top:1px solid var(--hair); flex-wrap:wrap; gap:14px; }
+  .logo{ font-family:'Newsreader', serif; font-weight:700; font-size:24px; text-decoration:none; color:var(--ink); }
+  .back-link{ font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; text-decoration:none; color:var(--ink); }
+  .back-link:hover{ color:var(--rust); }
+
+  main{ max-width:760px; margin:0 auto; padding:48px 32px 80px; }
+  .post-kicker{ font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:var(--rust); margin-bottom:18px; display:flex; gap:12px; align-items:center; }
+  .post-kicker::before{ content:""; width:22px; height:1px; background:var(--rust); display:inline-block; }
+  h1.post-title{ font-size:clamp(30px,4.5vw,44px); line-height:1.08; font-weight:600; margin:0 0 18px; letter-spacing:-0.01em; }
+  .post-dek{ font-size:19px; color:#3a372f; margin:0 0 34px; line-height:1.55; }
+  .post-meta{ display:flex; gap:18px; flex-wrap:wrap; font-family:'Space Mono',monospace; font-size:12px; color:#5c5848; border-top:1px solid var(--hair); border-bottom:1px solid var(--hair); padding:14px 0; margin-bottom:40px; }
+
+  article p{ margin:0 0 22px; font-size:17px; }
+  article h2{ font-size:24px; margin:44px 0 16px; font-weight:600; }
+  article h3{ font-size:19px; margin:32px 0 12px; font-weight:600; }
+  article ul, article ol{ margin:0 0 22px; padding-left:22px; }
+  article li{ margin-bottom:8px; }
+  article blockquote{
+    margin:32px 0; padding:4px 0 4px 22px; border-left:3px solid var(--rust);
+    font-family:'Newsreader',serif; font-style:italic; font-size:19px; color:#2c291f;
+  }
+  article strong{ color:var(--navy); }
+  .pull{
+    font-family:'Newsreader',serif; font-size:24px; line-height:1.4; margin:36px 0;
+    padding:20px 0; border-top:2px solid var(--ink); border-bottom:2px solid var(--ink);
+  }
+  code{ font-family:'Space Mono',monospace; background:var(--card); border:1px solid var(--hair); padding:1px 6px; font-size:14px; }
+
+  .stat-row{ display:flex; gap:16px; flex-wrap:wrap; margin:0 0 34px; }
+  .stat{ flex:1 1 140px; background:var(--card); border:1px solid var(--hair); padding:16px 18px; }
+  .stat .num{ font-family:'Newsreader',serif; font-size:26px; font-weight:600; color:var(--rust); line-height:1.1; }
+  .stat .label{ font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; color:#5c5848; margin-top:6px; }
+
+  .arch-flow{ font-family:'Space Mono',monospace; font-size:13px; background:var(--card); border:1px solid var(--hair); padding:16px 18px; margin:0 0 34px; line-height:1.9; overflow-x:auto; white-space:nowrap; }
+  .arch-flow .old{ color:#8a6a5c; }
+  .arch-flow .new{ color:var(--navy); font-weight:700; }
+
+  .post-footer{ margin-top:56px; padding-top:24px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .post-footer a{ font-family:'Space Mono',monospace; font-size:12.5px; text-transform:uppercase; letter-spacing:0.05em; text-decoration:none; }
+  .post-footer a:hover{ color:var(--rust); }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="masthead-top">
+    <span>Notes from the field</span>
+    <span>Drishti Chadha</span>
+  </div>
+  <div class="navbar">
+    <a href="../index.html" class="logo">Drishti Chadha</a>
+    <a class="back-link" href="../index.html#blog">← Back to all posts</a>
+  </div>
+</header>
+
+<main>
+  <article>
+    <span class="post-kicker">Data platform migration</span>
+    <h1 class="post-title">Cutting fleet analytics costs by collapsing the stack, not trimming it</h1>
+    <p class="post-dek">How replacing a four-service Azure reporting stack with a Databricks Lakehouse cut projected analytics infrastructure spend by roughly 30% — and set the platform up for both batch and streaming from day one.</p>
+    <div class="post-meta">
+      <span>Aug 2026</span>
+      <span>·</span>
+      <span>7 min read</span>
+      <span>·</span>
+      <span>Drishti Chadha</span>
+    </div>
+
+    <p>A fleet management and leasing company I worked with — tens of thousands of vehicles under management, reporting across fleet operations, leasing, telematics, and finance — came to us with a familiar complaint: their Azure reporting bill kept climbing, refreshes were slow, and every new report request meant touching four different services just to get a number onto a page. The instinct in situations like this is to go optimize the expensive piece. We looked at the stack instead, and the expensive piece turned out to be the wiring between services, not any one service itself.</p>
+
+    <h2>The stack that got expensive one service at a time</h2>
+    <p>Their existing architecture was a textbook multi-hop pipeline: Azure Data Factory moved data in batch from SQL-based operational systems and Salesforce into an Azure SQL data mart, Azure Analysis Services built tabular models on top of that mart, and Power BI — running on Premium capacity to handle the load — sat on top of Analysis Services. Every layer was defensible in isolation. Together, they meant every report refresh paid the processing cost of a SQL mart <em>and</em> a tabular model <em>and</em> a Premium BI tier, and every schema change had to be propagated through three services in sequence before a dashboard updated.</p>
+
+    <div class="arch-flow">
+      <span class="old">Before: Sources → ADF → Azure SQL data mart → Azure Analysis Services → Power BI (Premium)</span><br>
+      <span class="new">After:&nbsp;&nbsp;&nbsp;Sources → Databricks Lakehouse (Bronze/Silver/Gold) → Databricks SQL Warehouse → Power BI</span>
+    </div>
+
+    <p>Nobody had over-engineered this on purpose — it had accreted service by service, each addition solving a real problem at the time. But it meant the SQL mart and the tabular model were both doing the same job of "get data into a shape Power BI can query fast," just at different layers, and both were on the invoice.</p>
+
+    <h2>The fix: fewer layers, not faster layers</h2>
+    <p>We rebuilt the platform on a Databricks Lakehouse using a standard Bronze/Silver/Gold medallion structure, and the deliberate design choice was to remove the intermediate hops entirely rather than optimize them:</p>
+    <ul>
+      <li><strong>Bronze</strong> — source-aligned raw data landing directly from the SQL-based operational systems, Salesforce, Cosmos DB, and flat-file sources, with historical and incremental loads, schema evolution, and reprocessing built in.</li>
+      <li><strong>Silver</strong> — the legacy stored procedures and views that used to live in the SQL mart, converted into Databricks-native transformation logic, with the same cleansing and deduplication rules preserved.</li>
+      <li><strong>Gold</strong> — curated, business-ready metric views mapped directly to the KPIs the existing Power BI models already reported on, so the numbers stakeholders trusted didn't shift under them.</li>
+    </ul>
+    <p>Power BI then connects straight to a Databricks SQL Warehouse as its serving layer — no separate tabular-model service in between. Azure Analysis Services and the Azure SQL analytical mart come out of the architecture entirely, not because either was badly built, but because a governed Lakehouse with Unity Catalog access control can do both jobs — storage and semantic serving — without a service boundary in the middle charging for the handoff.</p>
+
+    <h2>Built for streaming, not just this migration</h2>
+    <p>The other reason the old architecture couldn't just be tuned in place: it was batch-only, and part of the source landscape — a Cosmos DB-backed transaction service — needed a path to near-real-time ingestion that Azure Data Factory's batch windows weren't built for. Structured streaming and Auto Loader on Databricks handle both needs on the same platform, so the transaction feed can move to streaming ingestion later without a second migration. That's the part of "collapse the stack" that's easy to miss in a cost conversation: the cheaper architecture also turned out to be the more capable one, because a Lakehouse doesn't force a choice between batch and streaming the way a SQL-mart-plus-tabular-model stack does.</p>
+
+    <div class="pull">The expensive part of a legacy analytics stack usually isn't a single slow service — it's the number of times data has to change shape and change hands before it reaches a dashboard. Every hop is a cost line and a failure point.</div>
+
+    <h2>What it took to get there</h2>
+    <p>This wasn't a lift-and-shift. Migrating meant re-mapping four Analysis Services models — including two multi-gigabyte ones — onto Gold-layer datasets, converting the stored-procedure and view logic that encoded years of business rules, and re-pointing Power BI reports to a new connection without stakeholders noticing a difference in the numbers on refresh day. We ran it as a phased program — environment and governance setup, then Bronze ingestion by source, then Silver conversion, then Gold and Power BI cutover, then a GenAI-powered natural-language layer on top for ad hoc questions — with validation gates between each layer so a bad conversion never made it downstream.</p>
+
+    <h2>What it delivered</h2>
+    <div class="stat-row">
+      <div class="stat"><div class="num">20–30%</div><div class="label">reduction in SQL &amp; analytics serving cost</div></div>
+      <div class="stat"><div class="num">~$60K/yr</div><div class="label">infrastructure savings identified in the pilot</div></div>
+      <div class="stat"><div class="num">2</div><div class="label">services removed from the critical path (AAS + SQL mart)</div></div>
+    </div>
+
+    <p>The savings weren't the result of squeezing a single expensive service — they came from removing two of them and letting Databricks do the storage, transformation, and semantic serving in one governed platform instead of three disconnected ones. That's usually the bigger lever in a cost-transformation program: not "make the expensive thing cheaper," but "ask why there are three expensive things doing overlapping jobs in the first place."</p>
+  </article>
+
+  <div class="post-footer">
+    <a href="../index.html#blog">← All posts</a>
+    <a href="mailto:drishtichadhaa@gmail.com">Email me about this →</a>
+  </div>
+</main>
+
+</body>
+</html>
