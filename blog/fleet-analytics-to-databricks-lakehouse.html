@@ -57,7 +57,7 @@
 
   .arch-diagram{ margin:0 0 34px; border:1px solid var(--hair); background:var(--card); padding:20px 20px 16px; }
   .arch-diagram-scroll{ overflow-x:auto; }
-  .arch-diagram svg{ width:100%; height:auto; display:block; min-width:520px; }
+  .arch-diagram svg{ width:100%; height:auto; display:block; min-width:600px; }
   .arch-caption{ font-family:'Space Mono',monospace; font-size:11.5px; color:#5c5848; text-align:center; margin:12px 0 0; }
 
   .post-footer{ margin-top:56px; padding-top:24px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
@@ -98,7 +98,7 @@
 
     <div class="arch-diagram">
       <div class="arch-diagram-scroll">
-        <svg viewBox="0 0 680 232" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Before and after architecture diagram. Before: Sources feed Azure Data Factory, into an Azure SQL Data Mart, into Azure Analysis Services, into Power BI Premium — five services. After: Sources feed a Databricks Lakehouse, into a Databricks SQL Warehouse, into Power BI — three layers, with Analysis Services and the SQL Data Mart removed.">
+        <svg viewBox="0 0 720 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Current versus proposed architecture. Current: SQL Server, Salesforce and Cosmos DB feed Azure Data Factory, into an Azure SQL Data Mart, into Azure Analysis Services, into Power BI Premium. Proposed: Salesforce, SQL Server, Cosmos DB and ADLS Gen2 feed a Databricks ingestion layer, into a Bronze, Silver, Gold medallion lakehouse, into a Databricks SQL Warehouse, into Power BI and business users, governed throughout by Unity Catalog, Workflows and elastic compute.">
           <defs>
             <marker id="arrowMuted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="#a8967f"/>
@@ -108,60 +108,87 @@
             </marker>
           </defs>
 
-          <text x="4" y="16" font-family="Space Mono, monospace" font-size="11" letter-spacing="1.5" fill="#a8967f">BEFORE</text>
-          <g font-family="Space Mono, monospace" font-size="10" fill="#6b6355">
-            <rect x="0" y="26" width="126" height="46" rx="4" fill="#E4DECE" stroke="#c9c2ae" stroke-width="1.2"/>
-            <text x="63" y="53" text-anchor="middle">Sources</text>
-            <line x1="130" y1="49" x2="150" y2="49" stroke="#a8967f" stroke-width="1.4" marker-end="url(#arrowMuted)"/>
+          <text x="4" y="16" font-family="Space Mono, monospace" font-size="11" letter-spacing="1.5" fill="#a8967f">CURRENT ARCHITECTURE</text>
+          <g font-family="Space Mono, monospace" font-size="9.5" fill="#6b6355">
+            <rect x="0" y="26" width="134" height="48" rx="4" fill="#E4DECE" stroke="#c9c2ae" stroke-width="1.2"/>
+            <text x="67" y="43" text-anchor="middle">SQL Server</text>
+            <text x="67" y="54" text-anchor="middle">Salesforce</text>
+            <text x="67" y="65" text-anchor="middle">Cosmos DB</text>
+            <line x1="138" y1="50" x2="154" y2="50" stroke="#a8967f" stroke-width="1.4" marker-end="url(#arrowMuted)"/>
 
-            <rect x="154" y="26" width="126" height="46" rx="4" fill="#E4DECE" stroke="#c9c2ae" stroke-width="1.2"/>
-            <text x="217" y="53" text-anchor="middle">Data Factory</text>
-            <line x1="284" y1="49" x2="304" y2="49" stroke="#a8967f" stroke-width="1.4" marker-end="url(#arrowMuted)"/>
+            <rect x="158" y="26" width="122" height="48" rx="4" fill="#E4DECE" stroke="#c9c2ae" stroke-width="1.2"/>
+            <text x="219" y="53" text-anchor="middle">Data Factory</text>
+            <line x1="284" y1="50" x2="300" y2="50" stroke="#a8967f" stroke-width="1.4" marker-end="url(#arrowMuted)"/>
 
-            <rect x="308" y="26" width="126" height="46" rx="4" fill="#E4DECE" stroke="#c9c2ae" stroke-width="1.2"/>
-            <text x="371" y="53" text-anchor="middle">SQL Data Mart</text>
-            <line x1="308" y1="26" x2="434" y2="72" stroke="#B5401F" stroke-width="1.2" opacity="0.55"/>
-            <line x1="434" y1="26" x2="308" y2="72" stroke="#B5401F" stroke-width="1.2" opacity="0.55"/>
-            <line x1="438" y1="49" x2="458" y2="49" stroke="#a8967f" stroke-width="1.4" marker-end="url(#arrowMuted)"/>
+            <rect x="304" y="26" width="122" height="48" rx="4" fill="#E4DECE" stroke="#c9c2ae" stroke-width="1.2"/>
+            <text x="365" y="53" text-anchor="middle">SQL Data Mart</text>
+            <line x1="304" y1="26" x2="426" y2="74" stroke="#B5401F" stroke-width="1.2" opacity="0.55"/>
+            <line x1="426" y1="26" x2="304" y2="74" stroke="#B5401F" stroke-width="1.2" opacity="0.55"/>
+            <line x1="430" y1="50" x2="446" y2="50" stroke="#a8967f" stroke-width="1.4" marker-end="url(#arrowMuted)"/>
 
-            <rect x="462" y="26" width="126" height="46" rx="4" fill="#E4DECE" stroke="#c9c2ae" stroke-width="1.2"/>
-            <text x="525" y="47" text-anchor="middle">Analysis</text>
-            <text x="525" y="60" text-anchor="middle">Services</text>
-            <line x1="462" y1="26" x2="588" y2="72" stroke="#B5401F" stroke-width="1.2" opacity="0.55"/>
-            <line x1="588" y1="26" x2="462" y2="72" stroke="#B5401F" stroke-width="1.2" opacity="0.55"/>
-            <line x1="592" y1="49" x2="612" y2="49" stroke="#a8967f" stroke-width="1.4" marker-end="url(#arrowMuted)"/>
+            <rect x="450" y="26" width="122" height="48" rx="4" fill="#E4DECE" stroke="#c9c2ae" stroke-width="1.2"/>
+            <text x="511" y="48" text-anchor="middle">Analysis</text>
+            <text x="511" y="61" text-anchor="middle">Services</text>
+            <line x1="450" y1="26" x2="572" y2="74" stroke="#B5401F" stroke-width="1.2" opacity="0.55"/>
+            <line x1="572" y1="26" x2="450" y2="74" stroke="#B5401F" stroke-width="1.2" opacity="0.55"/>
+            <line x1="576" y1="50" x2="592" y2="50" stroke="#a8967f" stroke-width="1.4" marker-end="url(#arrowMuted)"/>
 
-            <rect x="616" y="26" width="64" height="46" rx="4" fill="#E4DECE" stroke="#c9c2ae" stroke-width="1.2"/>
-            <text x="648" y="47" text-anchor="middle">Power</text>
-            <text x="648" y="60" text-anchor="middle">BI</text>
+            <rect x="596" y="26" width="124" height="48" rx="4" fill="#E4DECE" stroke="#c9c2ae" stroke-width="1.2"/>
+            <text x="658" y="48" text-anchor="middle">Power BI</text>
+            <text x="658" y="61" text-anchor="middle">(Premium)</text>
           </g>
-          <text x="340" y="94" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#6b6355">5 services · every refresh pays for all of them (✕ = removed)</text>
+          <text x="360" y="90" text-anchor="middle" font-family="Space Mono, monospace" font-size="10.5" fill="#6b6355">5 services · every refresh pays for the mart AND the tabular model AND Premium BI (✕ = removed)</text>
 
-          <line x1="0" y1="108" x2="680" y2="108" stroke="#c9c2ae" stroke-width="1"/>
+          <line x1="0" y1="104" x2="720" y2="104" stroke="#c9c2ae" stroke-width="1"/>
 
-          <text x="4" y="130" font-family="Space Mono, monospace" font-size="11" letter-spacing="1.5" fill="#B5401F">AFTER</text>
+          <text x="4" y="126" font-family="Space Mono, monospace" font-size="11" letter-spacing="1.5" fill="#B5401F">PROPOSED — DATABRICKS LAKEHOUSE</text>
+
+          <g font-family="Space Mono, monospace" font-size="10" fill="#141210">
+            <rect x="0" y="138" width="171" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="85" y="163" text-anchor="middle">Salesforce</text>
+            <rect x="183" y="138" width="171" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="268" y="163" text-anchor="middle">SQL Server</text>
+            <rect x="366" y="138" width="171" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="451" y="163" text-anchor="middle">Cosmos DB</text>
+            <rect x="549" y="138" width="171" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="634" y="163" text-anchor="middle">ADLS Gen2</text>
+          </g>
+          <line x1="360" y1="182" x2="360" y2="204" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowRust2)"/>
+
+          <rect x="0" y="206" width="720" height="32" fill="none" stroke="#141210" stroke-width="1.2" stroke-dasharray="2 3"/>
+          <text x="360" y="226" text-anchor="middle" font-family="Space Mono, monospace" font-size="10.5" fill="#141210">Ingestion — Lakeflow Connect · JDBC · Structured Streaming</text>
+          <line x1="360" y1="238" x2="360" y2="260" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowRust2)"/>
+
+          <g font-family="Space Mono, monospace" font-size="12" fill="#141210">
+            <rect x="0" y="262" width="226" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="113" y="288" text-anchor="middle">Bronze</text>
+            <rect x="246" y="262" width="226" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="359" y="288" text-anchor="middle">Silver</text>
+            <rect x="492" y="262" width="228" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="606" y="288" text-anchor="middle">Gold</text>
+          </g>
+          <line x1="360" y1="306" x2="360" y2="328" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowRust2)"/>
+
+          <rect x="0" y="330" width="720" height="32" rx="4" fill="#243B55"/>
+          <text x="360" y="350" text-anchor="middle" font-family="Space Mono, monospace" font-size="11.5" fill="#EFEBE1">Databricks SQL Warehouse</text>
+          <line x1="360" y1="364" x2="360" y2="384" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowRust2)"/>
+
           <g font-family="Space Mono, monospace" font-size="11" fill="#141210">
-            <rect x="0" y="140" width="160" height="48" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.6"/>
-            <text x="80" y="168" text-anchor="middle">Sources</text>
-            <line x1="164" y1="164" x2="184" y2="164" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowRust2)"/>
-
-            <rect x="188" y="140" width="160" height="48" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.6"/>
-            <text x="268" y="160" text-anchor="middle">Databricks</text>
-            <text x="268" y="174" text-anchor="middle">Lakehouse</text>
-            <line x1="352" y1="164" x2="372" y2="164" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowRust2)"/>
-
-            <rect x="376" y="140" width="160" height="48" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.6"/>
-            <text x="456" y="160" text-anchor="middle">SQL</text>
-            <text x="456" y="174" text-anchor="middle">Warehouse</text>
-            <line x1="540" y1="164" x2="560" y2="164" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowRust2)"/>
-
-            <rect x="564" y="140" width="116" height="48" rx="4" fill="#243B55" stroke="#141210" stroke-width="1.6"/>
-            <text x="622" y="168" text-anchor="middle" fill="#EFEBE1">Power BI</text>
+            <rect x="0" y="386" width="352" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="176" y="405" text-anchor="middle">Power BI</text>
+            <text x="176" y="419" text-anchor="middle">(semantic models)</text>
+            <rect x="368" y="386" width="352" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="544" y="405" text-anchor="middle">Business users</text>
+            <text x="544" y="419" text-anchor="middle">(AI / BI)</text>
           </g>
-          <text x="340" y="208" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#3a372f">3 layers · one governed platform does storage, transform &amp; serving</text>
+
+          <rect x="0" y="444" width="720" height="30" rx="4" fill="none" stroke="#B5401F" stroke-width="1.2" stroke-dasharray="3 3"/>
+          <text x="360" y="463" text-anchor="middle" font-family="Space Mono, monospace" font-size="10.5" fill="#B5401F">Governed throughout — Unity Catalog · Workflows · Compute (Photon / Serverless)</text>
+
+          <text x="360" y="490" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#3a372f">4 layers, one governed platform — replacing 5 disconnected services</text>
         </svg>
       </div>
-      <p class="arch-caption">Before / after — collapsing four Azure services into a governed Databricks Lakehouse</p>
+      <p class="arch-caption">Current vs. proposed architecture, redrawn from the migration plan — ingestion, medallion layers, serving, and governance</p>
     </div>
 
     <p>Nobody had over-engineered this on purpose — it had accreted service by service, each addition solving a real problem at the time. But it meant the SQL mart and the tabular model were both doing the same job of "get data into a shape Power BI can query fast," just at different layers, and both were on the invoice.</p>

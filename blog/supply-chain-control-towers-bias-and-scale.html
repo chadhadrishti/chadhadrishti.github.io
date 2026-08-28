@@ -100,7 +100,123 @@
 
     <div class="arch-diagram">
       <div class="arch-diagram-scroll">
-        <svg viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture diagram: SAP, BlueYonder, and manual sources feed a Bronze, Silver, Gold medallion lakehouse on Databricks and Azure, which powers Customer Service Level, Demand Forecasting, Warehouse, and Inventory Management control towers, serving Power BI to roughly 500 stakeholders in a global rollout.">
+        <svg viewBox="0 0 720 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Supply chain control tower architecture. A Command Center sits above five control towers — Procurement, Logistics, Inventory, Demand, Manufacturing — which all read from one Common Data Model. That model is fed by ERP, SCM, TMS and WMS source systems, which in turn capture the physical flow of goods from Supplier through VMI/RM store, Factory, Warehouse, Distributor, to Customer and point of sale.">
+          <defs>
+            <marker id="arrowCT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#B5401F"/>
+            </marker>
+          </defs>
+
+          <rect x="210" y="20" width="300" height="42" rx="4" fill="#243B55" stroke="#141210" stroke-width="1.4"/>
+          <text x="360" y="46" text-anchor="middle" font-family="Space Mono, monospace" font-size="12.5" fill="#EFEBE1">Command Center</text>
+
+          <line x1="360" y1="66" x2="360" y2="88" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowCT)"/>
+
+          <text x="360" y="98" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" letter-spacing="1.5" fill="#B5401F">CONTROL TOWERS</text>
+          <g font-family="Space Mono, monospace" font-size="10" fill="#141210">
+            <rect x="0" y="108" width="136" height="46" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="68" y="135" text-anchor="middle">Procurement</text>
+            <rect x="146" y="108" width="136" height="46" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="214" y="135" text-anchor="middle">Logistics</text>
+            <rect x="292" y="108" width="136" height="46" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="360" y="135" text-anchor="middle">Inventory</text>
+            <rect x="438" y="108" width="136" height="46" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="506" y="135" text-anchor="middle">Demand</text>
+            <rect x="584" y="108" width="136" height="46" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="652" y="135" text-anchor="middle">Manufacturing</text>
+          </g>
+
+          <line x1="360" y1="158" x2="360" y2="182" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowCT)"/>
+
+          <rect x="0" y="186" width="720" height="38" rx="4" fill="#243B55" stroke="#141210" stroke-width="1.4"/>
+          <text x="360" y="210" text-anchor="middle" font-family="Space Mono, monospace" font-size="12.5" fill="#EFEBE1">Common Data Model</text>
+
+          <line x1="360" y1="228" x2="360" y2="244" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowCT)"/>
+
+          <text x="360" y="246" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" letter-spacing="1.5" fill="#B5401F">SOURCE SYSTEMS</text>
+          <g font-family="Space Mono, monospace" font-size="11" fill="#141210">
+            <rect x="0" y="256" width="170" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="85" y="281" text-anchor="middle">ERP</text>
+            <rect x="180" y="256" width="170" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="265" y="281" text-anchor="middle">SCM</text>
+            <rect x="360" y="256" width="170" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="445" y="281" text-anchor="middle">TMS</text>
+            <rect x="540" y="256" width="170" height="42" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="625" y="281" text-anchor="middle">WMS</text>
+          </g>
+
+          <line x1="360" y1="302" x2="360" y2="326" stroke="#B5401F" stroke-width="2" marker-end="url(#arrowCT)"/>
+
+          <text x="360" y="330" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" letter-spacing="1.5" fill="#B5401F">PHYSICAL FLOW</text>
+          <g font-family="Space Mono, monospace" font-size="8.5" fill="#141210">
+            <rect x="25" y="340" width="100" height="48" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.2"/>
+            <text x="75" y="368" text-anchor="middle">Supplier</text>
+            <line x1="125" y1="364" x2="139" y2="364" stroke="#141210" stroke-width="1" opacity="0.5"/>
+
+            <rect x="139" y="340" width="100" height="48" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.2"/>
+            <text x="189" y="361" text-anchor="middle">VMI/RM</text>
+            <text x="189" y="373" text-anchor="middle">Store</text>
+            <line x1="239" y1="364" x2="253" y2="364" stroke="#141210" stroke-width="1" opacity="0.5"/>
+
+            <rect x="253" y="340" width="100" height="48" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.2"/>
+            <text x="303" y="368" text-anchor="middle">Factory</text>
+            <line x1="353" y1="364" x2="367" y2="364" stroke="#141210" stroke-width="1" opacity="0.5"/>
+
+            <rect x="367" y="340" width="100" height="48" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.2"/>
+            <text x="417" y="368" text-anchor="middle">Warehouse</text>
+            <line x1="467" y1="364" x2="481" y2="364" stroke="#141210" stroke-width="1" opacity="0.5"/>
+
+            <rect x="481" y="340" width="100" height="48" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.2"/>
+            <text x="531" y="368" text-anchor="middle">Distributor</text>
+            <line x1="581" y1="364" x2="595" y2="364" stroke="#141210" stroke-width="1" opacity="0.5"/>
+
+            <rect x="595" y="340" width="100" height="48" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.2"/>
+            <text x="645" y="361" text-anchor="middle">Customer</text>
+            <text x="645" y="373" text-anchor="middle">/ POS</text>
+          </g>
+
+          <text x="360" y="412" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#5c5848">Same spine, every control tower reads from it — no more per-tower extracts</text>
+        </svg>
+      </div>
+      <p class="arch-caption">Control tower architecture — one common data model spanning procurement through point of sale</p>
+    </div>
+
+    <p>That ordering mattered for how I sequenced the program. We used a foundational → incremental → transformational structure: get the reusable data assets and the ERP/TMS/WMS connections solid first, then layer in reporting and predictive use cases, and only then let teams ask for the agentic, recommend-and-quantify capabilities everyone actually wanted on day one. Every time a stakeholder pushed to skip ahead to the AI layer, the conversation came back to the same point — the recommendation engine is only as good as the common data model underneath it, and that's not a shortcut-able step.</p>
+
+    <h3>The messiest part: warehouse</h3>
+    <p>Warehouse was the domain with the most operational debt. Before the control tower went live, "how much inventory do we actually have" required someone to reconcile factory, in-transit, warehouse, quality-hold, and distributor numbers by hand. Once we had end-to-end inventory visibility, the picture got a lot less comfortable, in a useful way:</p>
+
+    <div class="stat-row">
+      <div class="stat"><div class="num">700K+</div><div class="label">cases of unallocated inventory surfaced</div></div>
+      <div class="stat"><div class="num">578K+</div><div class="label">cases of unallocated demand identified</div></div>
+      <div class="stat"><div class="num">254K+</div><div class="label">cases flagged as expired or near-expiry</div></div>
+      <div class="stat"><div class="num">1.28M</div><div class="label">cases sitting at high days-of-inventory</div></div>
+    </div>
+
+    <p>None of those numbers were new problems — they were problems that had been invisible because they lived in the gap between systems. Once they were visible in one place, the conversation with the warehouse team shifted from "which report is right" to "which of these do we fix first," which is a much shorter meeting.</p>
+
+    <h2>Sales forecast accuracy and the bias problem</h2>
+    <p>Every planning team I've worked with tracks forecast accuracy. Fewer track forecast <strong>bias</strong> — whether the model is consistently over- or under-forecasting in the same direction — and that distinction turned out to be the more useful lever.</p>
+
+    <p>Accuracy tells you how far off you were on average. Bias tells you whether you can trust the direction of the next forecast. A brand running at 75% SFA-to-order with a 6% positive bias isn't randomly wrong 25% of the time — it's systematically over-forecasting, which means every downstream re-order point, safety stock calculation, and production plan built on it inherits the same skew. We built the SFA &amp; Bias dashboard specifically to separate those two signals, tracking both against target bands (roughly ±5% on bias, 75%+ on SFA) by brand, segment, and DC, instead of reporting one blended accuracy number that hid which direction things were drifting.</p>
+
+    <div class="pull">A forecast that's 75% accurate but consistently biased in one direction is a solvable problem. A forecast that's 75% accurate with no visible bias pattern is a much harder one — and you can't tell the difference without measuring bias separately.</div>
+
+    <p>That distinction changed how planners reacted to the dashboard. Instead of chasing a single accuracy KPI, they could see which SKUs, DCs, or promotional windows were driving a directional skew and correct the input assumption — a promo uplift factor, a lead-time buffer — rather than re-running the whole forecast model and hoping it landed closer next time.</p>
+
+    <h2>The part that actually gets counted: hours back</h2>
+    <p>The dashboards get the attention in stakeholder reviews, but the time savings usually come from a less visible layer — the natural-language and automation work sitting on top of the data model. A conversational decision-intelligence layer we built on top of the common data model cut time-to-insight for root-cause questions ("why did case fill drop for this SKU in this DC last period") by around 90%, turning what used to be a half-day pull-and-reconcile exercise into a direct question with a sourced answer. A parallel effort automating document comparison for quality and compliance checks — matching invoices, packing lists, and bills of entry against source documents — cut that review time by about 75%.</p>
+
+    <p>Multiply either of those across a planning or procurement team running the same checks every week, and the hours add up faster than any single dashboard ever will.</p>
+
+    <h2>The platform underneath all of it — and the scale it actually reached</h2>
+    <p>None of the above works without the unglamorous layer: a common data platform, built on Azure Databricks, with Unity Catalog governing who can see what across procurement, logistics, inventory, and demand data. Bronze holds source-aligned data straight out of the ERP, planning tool, and manual sources; Silver cleans and conforms it; Gold is what the control towers and dashboards actually query.</p>
+
+    <p>This is the architecture I built as <strong>Project Thema</strong>, a greenfield Medallion Lakehouse for a global CPG business headquartered in London, integrating SAP, BlueYonder, and manual sources on Databricks and Azure to power Customer Service Level, Demand Forecasting, Warehouse, and Inventory Management control towers. Phase 1 shipped in 8 weeks; the global Phase 2 rollout shipped in another 8, reaching roughly 500 stakeholders across the organization. I flew from India to the UK to run UAT and get executive sign-off in person rather than over a call — some sign-offs are worth doing face to face.</p>
+
+    <div class="arch-diagram">
+      <div class="arch-diagram-scroll">
+        <svg viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Project Thema architecture: SAP, BlueYonder, and manual sources feed a Bronze, Silver, Gold medallion lakehouse on Databricks and Azure, which powers Customer Service Level, Demand Forecasting, Warehouse, and Inventory Management control towers, serving Power BI to roughly 500 stakeholders in a global rollout.">
           <defs>
             <marker id="arrow1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="#B5401F"/>
@@ -156,39 +272,6 @@
       </div>
       <p class="arch-caption">Project Thema — greenfield Medallion Lakehouse for a global CPG business, Databricks + Azure</p>
     </div>
-
-    <p>That ordering mattered for how I sequenced the program. We used a foundational → incremental → transformational structure: get the reusable data assets and the ERP/TMS/WMS connections solid first, then layer in reporting and predictive use cases, and only then let teams ask for the agentic, recommend-and-quantify capabilities everyone actually wanted on day one. Every time a stakeholder pushed to skip ahead to the AI layer, the conversation came back to the same point — the recommendation engine is only as good as the common data model underneath it, and that's not a shortcut-able step.</p>
-
-    <h3>The messiest part: warehouse</h3>
-    <p>Warehouse was the domain with the most operational debt. Before the control tower went live, "how much inventory do we actually have" required someone to reconcile factory, in-transit, warehouse, quality-hold, and distributor numbers by hand. Once we had end-to-end inventory visibility, the picture got a lot less comfortable, in a useful way:</p>
-
-    <div class="stat-row">
-      <div class="stat"><div class="num">700K+</div><div class="label">cases of unallocated inventory surfaced</div></div>
-      <div class="stat"><div class="num">578K+</div><div class="label">cases of unallocated demand identified</div></div>
-      <div class="stat"><div class="num">254K+</div><div class="label">cases flagged as expired or near-expiry</div></div>
-      <div class="stat"><div class="num">1.28M</div><div class="label">cases sitting at high days-of-inventory</div></div>
-    </div>
-
-    <p>None of those numbers were new problems — they were problems that had been invisible because they lived in the gap between systems. Once they were visible in one place, the conversation with the warehouse team shifted from "which report is right" to "which of these do we fix first," which is a much shorter meeting.</p>
-
-    <h2>Sales forecast accuracy and the bias problem</h2>
-    <p>Every planning team I've worked with tracks forecast accuracy. Fewer track forecast <strong>bias</strong> — whether the model is consistently over- or under-forecasting in the same direction — and that distinction turned out to be the more useful lever.</p>
-
-    <p>Accuracy tells you how far off you were on average. Bias tells you whether you can trust the direction of the next forecast. A brand running at 75% SFA-to-order with a 6% positive bias isn't randomly wrong 25% of the time — it's systematically over-forecasting, which means every downstream re-order point, safety stock calculation, and production plan built on it inherits the same skew. We built the SFA &amp; Bias dashboard specifically to separate those two signals, tracking both against target bands (roughly ±5% on bias, 75%+ on SFA) by brand, segment, and DC, instead of reporting one blended accuracy number that hid which direction things were drifting.</p>
-
-    <div class="pull">A forecast that's 75% accurate but consistently biased in one direction is a solvable problem. A forecast that's 75% accurate with no visible bias pattern is a much harder one — and you can't tell the difference without measuring bias separately.</div>
-
-    <p>That distinction changed how planners reacted to the dashboard. Instead of chasing a single accuracy KPI, they could see which SKUs, DCs, or promotional windows were driving a directional skew and correct the input assumption — a promo uplift factor, a lead-time buffer — rather than re-running the whole forecast model and hoping it landed closer next time.</p>
-
-    <h2>The part that actually gets counted: hours back</h2>
-    <p>The dashboards get the attention in stakeholder reviews, but the time savings usually come from a less visible layer — the natural-language and automation work sitting on top of the data model. A conversational decision-intelligence layer we built on top of the common data model cut time-to-insight for root-cause questions ("why did case fill drop for this SKU in this DC last period") by around 90%, turning what used to be a half-day pull-and-reconcile exercise into a direct question with a sourced answer. A parallel effort automating document comparison for quality and compliance checks — matching invoices, packing lists, and bills of entry against source documents — cut that review time by about 75%.</p>
-
-    <p>Multiply either of those across a planning or procurement team running the same checks every week, and the hours add up faster than any single dashboard ever will.</p>
-
-    <h2>The platform underneath all of it — and the scale it actually reached</h2>
-    <p>None of the above works without the unglamorous layer: a common data platform, built on Azure Databricks, with Unity Catalog governing who can see what across procurement, logistics, inventory, and demand data. Bronze holds source-aligned data straight out of the ERP, planning tool, and manual sources; Silver cleans and conforms it; Gold is what the control towers and dashboards actually query.</p>
-
-    <p>This is the architecture I built as <strong>Project Thema</strong>, a greenfield Medallion Lakehouse for a global CPG business headquartered in London, integrating SAP, BlueYonder, and manual sources on Databricks and Azure to power Customer Service Level, Demand Forecasting, Warehouse, and Inventory Management control towers. Phase 1 shipped in 8 weeks; the global Phase 2 rollout shipped in another 8, reaching roughly 500 stakeholders across the organization. I flew from India to the UK to run UAT and get executive sign-off in person rather than over a call — some sign-offs are worth doing face to face.</p>
 
     <div class="stat-row">
       <div class="stat"><div class="num">~25,000</div><div class="label">hours/year of manual reporting eliminated</div></div>
