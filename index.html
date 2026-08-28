@@ -14,14 +14,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#EFEBE1;
-    --paper-2:#E4DECE;
+    --paper:#FFFFFF;
+    --paper-2:#FFF4CC;
     --ink:#141210;
-    --rust:#B5401F;
+    --rust:#8C6A00;
+    --yellow:#FFCC00;
     --navy:#243B55;
     --line:#141210;
-    --hair:#c9c2ae;
-    --card:#F7F4EC;
+    --hair:#e3ddc5;
+    --card:#FAF8F2;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -39,10 +40,10 @@
   a{ color:inherit; }
   img{ max-width:100%; display:block; }
   .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
-  ::selection{ background:var(--rust); color:var(--paper); }
+  ::selection{ background:var(--yellow); color:var(--ink); }
   :focus-visible{ outline:2px solid var(--rust); outline-offset:3px; }
 
-  header.site{ border-bottom:2px solid var(--ink); background:var(--paper); position:sticky; top:0; z-index:50; }
+  header.site{ border-bottom:1px solid var(--hair); background:var(--paper); position:sticky; top:0; z-index:50; }
   .masthead-top{
     display:flex; justify-content:space-between; align-items:center;
     padding:10px 32px; max-width:1180px; margin:0 auto;
@@ -63,27 +64,28 @@
     letter-spacing:0.06em; text-transform:uppercase; color:var(--ink); padding:8px 16px;
   }
   .nav-links a:hover{ color:var(--rust); }
-  .nav-links .resume-btn{ background:var(--ink); color:var(--paper); padding:9px 18px; }
-  .nav-links .resume-btn:hover{ background:var(--rust); color:var(--paper); }
+  .nav-links .resume-btn{ background:var(--yellow); color:var(--ink); padding:9px 18px; }
+  .nav-links .resume-btn:hover{ background:var(--ink); color:var(--yellow); }
 
-  .hero{ border-bottom:2px solid var(--ink); }
+  .hero{ border-bottom:1px solid var(--hair); }
   .hero-grid{ display:grid; grid-template-columns:7fr 5fr; gap:0; }
-  .hero-main{ padding:56px 40px 56px 0; border-right:1px solid var(--hair); }
-  .hero-side{ padding:56px 0 56px 40px; }
+  .hero-main{ padding:72px 48px 72px 0; border-right:1px solid var(--hair); }
+  .hero-side{ padding:72px 0 72px 48px; }
   @media (max-width:860px){
     .hero-grid{ grid-template-columns:1fr; }
-    .hero-main{ border-right:none; border-bottom:1px solid var(--hair); padding:40px 0; }
-    .hero-side{ padding:32px 0; }
+    .hero-main{ border-right:none; border-bottom:1px solid var(--hair); padding:48px 0; }
+    .hero-side{ padding:40px 0; }
   }
   .kicker{ display:flex; align-items:center; gap:10px; margin-bottom:26px; font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.1em; }
+  .kicker::before{ content:""; width:9px; height:9px; background:var(--yellow); border:1px solid var(--ink); display:inline-block; }
   .kicker .no{ color:var(--rust); font-weight:700; }
   h1.headline{ font-size:clamp(38px, 5.4vw, 64px); line-height:1.02; font-weight:600; letter-spacing:-0.015em; margin:0 0 26px; }
-  h1.headline .accent{ font-style:italic; color:var(--rust); }
+  h1.headline .accent{ font-style:italic; background:var(--yellow); color:var(--ink); padding:2px 12px; display:inline-block; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
   .subhead{ font-size:18px; color:#3a372f; max-width:520px; margin:0 0 30px; line-height:1.6; }
   .hero-ctas{ display:flex; gap:0; flex-wrap:wrap; border:2px solid var(--ink); width:fit-content; }
   .btn{ display:inline-flex; align-items:center; gap:8px; padding:13px 22px; font-family:'Space Mono',monospace; font-size:12.5px; text-transform:uppercase; letter-spacing:0.05em; text-decoration:none; font-weight:700; border:none; }
-  .btn.primary{ background:var(--ink); color:var(--paper); }
-  .btn.primary:hover{ background:var(--rust); }
+  .btn.primary{ background:var(--yellow); color:var(--ink); }
+  .btn.primary:hover{ background:var(--ink); color:var(--yellow); }
   .btn.ghost{ background:var(--paper); color:var(--ink); border-left:2px solid var(--ink); }
   .btn.ghost:hover{ color:var(--rust); }
 
@@ -95,22 +97,22 @@
 
   .field-label{ font-family:'Space Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.1em; color:var(--rust); font-weight:700; }
 
-  section{ border-bottom:2px solid var(--ink); padding:60px 0; }
-  .section-head{ display:flex; align-items:baseline; gap:18px; margin-bottom:40px; flex-wrap:wrap; padding-bottom:16px; border-bottom:1px solid var(--hair); }
+  section{ border-bottom:1px solid var(--hair); padding:88px 0; }
+  .section-head{ display:flex; align-items:baseline; gap:18px; margin-bottom:44px; flex-wrap:wrap; padding-bottom:16px; border-bottom:1px solid var(--hair); }
   .section-num{ font-family:'Space Mono',monospace; font-size:13px; color:var(--rust); font-weight:700; }
   h2.section-title{ font-size:32px; margin:0; font-weight:600; letter-spacing:-0.01em; }
   .section-note{ margin:0 0 0 auto; font-size:13px; color:#5c5848; max-width:320px; text-align:right; font-family:'Space Mono',monospace; line-height:1.6; }
   @media (max-width:640px){ .section-note{ text-align:left; margin-left:0; } }
 
   /* ---------- SPEC CARDS ---------- */
-  .spec-grid{ display:grid; grid-template-columns:1fr; gap:34px; }
-  .spec-card{ background:var(--card); border:2px solid var(--ink); box-shadow:8px 8px 0 var(--ink); margin-right:8px; }
-  .spec-top{ display:flex; justify-content:space-between; align-items:center; padding:14px 22px; background:var(--ink); color:var(--paper); flex-wrap:wrap; gap:10px; }
-  .spec-id{ font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.04em; }
-  .tag-row{ display:flex; gap:8px; flex-wrap:wrap; }
-  .tag{ font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; padding:4px 10px; border:1px solid var(--paper); color:var(--paper); }
-  .tag.impact{ background:var(--rust); border-color:var(--rust); color:var(--paper); }
-  .spec-body{ padding:28px 26px 30px; }
+  .spec-grid{ display:grid; grid-template-columns:1fr; gap:24px; }
+  .spec-card{ background:var(--card); border:1px solid var(--hair); }
+  .spec-top{ display:flex; justify-content:space-between; align-items:center; padding:16px 26px; border-bottom:1px solid var(--hair); flex-wrap:wrap; gap:10px; }
+  .spec-id{ font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.04em; color:#5c5848; }
+  .tag-row{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+  .tag{ font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; color:#5c5848; }
+  .tag.impact{ background:var(--yellow); color:var(--ink); font-weight:700; padding:3px 9px; }
+  .spec-body{ padding:26px 26px 30px; }
   .spec-body h3{ font-size:23px; margin:0 0 8px; font-weight:600; line-height:1.2; }
   .spec-client{ font-size:12.5px; color:var(--navy); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:16px; font-family:'Space Mono',monospace; }
   .spec-teaser{ font-size:15.5px; line-height:1.6; margin:0 0 4px; color:#2c291f; }
@@ -146,7 +148,7 @@
 
   /* architecture diagrams */
   .diagram-field{ grid-column:1/-1; padding-top:16px; border-top:1px solid var(--hair); }
-  .diagram-wrap{ border:1.5px solid var(--ink); background:var(--paper); padding:14px 10px 6px; }
+  .diagram-wrap{ border:1px solid var(--hair); background:var(--paper); padding:14px 10px 6px; }
   .diagram-wrap svg{ width:100%; height:auto; display:block; }
   .diagram-caption{ font-family:'Space Mono',monospace; font-size:11px; color:#5c5848; text-align:center; margin:8px 0 2px; text-transform:uppercase; letter-spacing:0.04em; }
 
@@ -170,10 +172,10 @@
   .pill{ font-size:12.5px; font-family:'Space Mono',monospace; padding:6px 11px; border:1px solid var(--ink); background:var(--card); color:var(--ink); }
 
   /* ---------- BLOG ---------- */
-  .blog-list{ border-top:2px solid var(--ink); }
+  .blog-list{ border-top:1px solid var(--hair); }
   .blog-row{
     display:flex; justify-content:space-between; align-items:baseline; gap:24px;
-    padding:26px 4px; border-bottom:2px solid var(--ink); text-decoration:none; color:var(--ink);
+    padding:28px 4px; border-bottom:1px solid var(--hair); text-decoration:none; color:var(--ink);
     flex-wrap:wrap;
   }
   .blog-row:hover{ background:var(--card); }
@@ -185,7 +187,7 @@
   .blog-row:hover .blog-arrow{ text-decoration:underline; }
 
   /* ---------- CONTACT ---------- */
-  .contact-grid{ display:grid; grid-template-columns:6fr 6fr; gap:0; border:2px solid var(--ink); }
+  .contact-grid{ display:grid; grid-template-columns:6fr 6fr; gap:0; border:1px solid var(--hair); }
   @media (max-width:700px){ .contact-grid{ grid-template-columns:1fr; } }
   .contact-left{ padding:36px; border-right:1px solid var(--ink); background:var(--card); }
   @media (max-width:700px){ .contact-left{ border-right:none; border-bottom:1px solid var(--ink); } }
@@ -235,13 +237,13 @@
 </header>
 
 <main id="top">
-  <section class="hero" style="padding:0; border-bottom:2px solid var(--ink);">
+  <section class="hero" style="padding:0; border-bottom:1px solid var(--hair);">
     <div class="wrap" style="padding:0;">
       <div class="hero-grid">
         <div class="hero-main wrap" style="padding-left:0;">
-          <span class="kicker"><span class="no">No. 01</span> — Technical Product Manager</span>
+          <span class="kicker">Technical Product Manager</span>
           <h1 class="headline">I turn ambiguous data problems into<br><span class="accent">products people adopt.</span></h1>
-          <p class="subhead">Five years owning enterprise data and AI platforms end to end — discovery, PRDs, architecture, launch, and the adoption metrics that prove it worked. Most recently ran product strategy and delivery for 35+ Databricks/AI accounts.</p>
+          <p class="subhead">For the last five years I've taken enterprise data and AI platforms from a messy first ask to something people actually rely on — writing the spec, designing the architecture, shipping it, then reading the adoption numbers to see if it actually landed. Most recently that meant running product strategy across 35+ Databricks and AI accounts at once.</p>
           <div class="hero-ctas">
             <a class="btn primary" href="mailto:drishtichadhaa@gmail.com">Email me</a>
             <a class="btn ghost" href="assets/Drishti_Chadha_Resume.pdf" target="_blank" rel="noopener">Download résumé</a>
@@ -621,7 +623,7 @@
     <div class="wrap">
       <div class="section-head">
         <span class="section-num mono">03</span>
-        <h2 class="section-title">What I bring to a PM seat.</h2>
+        <h2 class="section-title">What I bring to a seat.</h2>
       </div>
 
       <div class="skills-grid">
