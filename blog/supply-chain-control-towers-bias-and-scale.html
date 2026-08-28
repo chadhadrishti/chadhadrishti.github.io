@@ -58,6 +58,11 @@
   .post-footer{ margin-top:56px; padding-top:24px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
   .post-footer a{ font-family:'Space Mono',monospace; font-size:12.5px; text-transform:uppercase; letter-spacing:0.05em; text-decoration:none; }
   .post-footer a:hover{ color:var(--rust); }
+
+  .arch-diagram{ margin:0 0 34px; border:1px solid var(--hair); background:var(--card); padding:20px 20px 16px; }
+  .arch-diagram-scroll{ overflow-x:auto; }
+  .arch-diagram svg{ width:100%; height:auto; display:block; min-width:520px; }
+  .arch-caption{ font-family:'Space Mono',monospace; font-size:11.5px; color:#5c5848; text-align:center; margin:12px 0 0; }
 </style>
 </head>
 <body>
@@ -93,6 +98,65 @@
     <h2>Project management: control towers, not dashboards</h2>
     <p>The instinct on most of these programs is to start with a dashboard. We started with a data model instead — one spine running from factory and supplier through VMI/RM store, warehouse, distributor, and customer/POS, with every control tower (procurement, logistics, inventory, demand, manufacturing) reading from the same source instead of running its own extract.</p>
 
+    <div class="arch-diagram">
+      <div class="arch-diagram-scroll">
+        <svg viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture diagram: SAP, BlueYonder, and manual sources feed a Bronze, Silver, Gold medallion lakehouse on Databricks and Azure, which powers Customer Service Level, Demand Forecasting, Warehouse, and Inventory Management control towers, serving Power BI to roughly 500 stakeholders in a global rollout.">
+          <defs>
+            <marker id="arrow1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#B5401F"/>
+            </marker>
+          </defs>
+
+          <text x="340" y="20" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" letter-spacing="1.5" fill="#B5401F">SOURCES</text>
+          <g font-family="Space Mono, monospace" font-size="12.5" fill="#141210">
+            <rect x="0" y="30" width="216" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="108" y="57" text-anchor="middle">SAP</text>
+            <rect x="232" y="30" width="216" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="340" y="57" text-anchor="middle">BlueYonder</text>
+            <rect x="464" y="30" width="216" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="572" y="57" text-anchor="middle">Manual files</text>
+          </g>
+
+          <line x1="340" y1="78" x2="340" y2="104" stroke="#B5401F" stroke-width="2" marker-end="url(#arrow1)"/>
+
+          <text x="340" y="118" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" letter-spacing="1" fill="#B5401F">MEDALLION LAKEHOUSE · DATABRICKS + AZURE</text>
+          <g font-family="Space Mono, monospace" font-size="12.5" fill="#141210">
+            <rect x="0" y="130" width="216" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="108" y="157" text-anchor="middle">Bronze — raw</text>
+            <rect x="232" y="130" width="216" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="340" y="157" text-anchor="middle">Silver — cleansed</text>
+            <rect x="464" y="130" width="216" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="572" y="157" text-anchor="middle">Gold — curated</text>
+          </g>
+
+          <line x1="340" y1="178" x2="340" y2="204" stroke="#B5401F" stroke-width="2" marker-end="url(#arrow1)"/>
+
+          <text x="340" y="218" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" letter-spacing="1.5" fill="#B5401F">CONTROL TOWERS</text>
+          <g font-family="Space Mono, monospace" font-size="11" fill="#141210">
+            <rect x="0" y="230" width="161" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="80" y="246" text-anchor="middle">Customer</text>
+            <text x="80" y="260" text-anchor="middle">Service Level</text>
+            <rect x="173" y="230" width="161" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="253" y="256" text-anchor="middle">Demand Forecasting</text>
+            <rect x="346" y="230" width="161" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="426" y="256" text-anchor="middle">Warehouse</text>
+            <rect x="519" y="230" width="161" height="44" rx="4" fill="#F7F4EC" stroke="#141210" stroke-width="1.4"/>
+            <text x="599" y="246" text-anchor="middle">Inventory</text>
+            <text x="599" y="260" text-anchor="middle">Management</text>
+          </g>
+
+          <line x1="340" y1="278" x2="340" y2="304" stroke="#B5401F" stroke-width="2" marker-end="url(#arrow1)"/>
+
+          <text x="340" y="318" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" letter-spacing="1.5" fill="#B5401F">CONSUMPTION</text>
+          <rect x="220" y="330" width="240" height="44" rx="4" fill="#243B55" stroke="#141210" stroke-width="1.4"/>
+          <text x="340" y="357" text-anchor="middle" font-family="Space Mono, monospace" font-size="12.5" fill="#EFEBE1">Power BI</text>
+
+          <text x="340" y="392" text-anchor="middle" font-family="Space Mono, monospace" font-size="11.5" fill="#5c5848">~500 stakeholders · global Phase 2 rollout in 8 weeks</text>
+        </svg>
+      </div>
+      <p class="arch-caption">Project Thema — greenfield Medallion Lakehouse for a global CPG business, Databricks + Azure</p>
+    </div>
+
     <p>That ordering mattered for how I sequenced the program. We used a foundational → incremental → transformational structure: get the reusable data assets and the ERP/TMS/WMS connections solid first, then layer in reporting and predictive use cases, and only then let teams ask for the agentic, recommend-and-quantify capabilities everyone actually wanted on day one. Every time a stakeholder pushed to skip ahead to the AI layer, the conversation came back to the same point — the recommendation engine is only as good as the common data model underneath it, and that's not a shortcut-able step.</p>
 
     <h3>The messiest part: warehouse</h3>
@@ -121,8 +185,17 @@
 
     <p>Multiply either of those across a planning or procurement team running the same checks every week, and the hours add up faster than any single dashboard ever will.</p>
 
-    <h2>The platform underneath all of it</h2>
-    <p>None of the above works without the unglamorous layer: a common data platform, built on Azure Databricks, with Unity Catalog governing who can see what across procurement, logistics, inventory, and demand data. Bronze holds source-aligned data straight out of ERP, SCM, TMS, and WMS; Silver cleans and conforms it; Gold is what the control towers and dashboards actually query. That structure is what let us onboard new regions without re-architecting — the platform now runs as the common data layer for teams across North America, Europe, the UK, and Asia-Pacific, serving upwards of <strong>1,500 users globally</strong> off the same governed source of truth.</p>
+    <h2>The platform underneath all of it — and the scale it actually reached</h2>
+    <p>None of the above works without the unglamorous layer: a common data platform, built on Azure Databricks, with Unity Catalog governing who can see what across procurement, logistics, inventory, and demand data. Bronze holds source-aligned data straight out of the ERP, planning tool, and manual sources; Silver cleans and conforms it; Gold is what the control towers and dashboards actually query.</p>
+
+    <p>This is the architecture I built as <strong>Project Thema</strong>, a greenfield Medallion Lakehouse for a global CPG business headquartered in London, integrating SAP, BlueYonder, and manual sources on Databricks and Azure to power Customer Service Level, Demand Forecasting, Warehouse, and Inventory Management control towers. Phase 1 shipped in 8 weeks; the global Phase 2 rollout shipped in another 8, reaching roughly 500 stakeholders across the organization. I flew from India to the UK to run UAT and get executive sign-off in person rather than over a call — some sign-offs are worth doing face to face.</p>
+
+    <div class="stat-row">
+      <div class="stat"><div class="num">~25,000</div><div class="label">hours/year of manual reporting eliminated</div></div>
+      <div class="stat"><div class="num">1,500+</div><div class="label">additional hours saved within the first year</div></div>
+      <div class="stat"><div class="num">~$5M</div><div class="label">in inventory write-offs avoided</div></div>
+      <div class="stat"><div class="num">~500</div><div class="label">stakeholders in the global Phase 2 rollout</div></div>
+    </div>
 
     <p>That's the part I'd tell anyone starting a similar program: the AI layer is the part people ask for, but the platform underneath it — the thing nobody notices when it's working — is the part that determines whether any of it holds up at scale.</p>
   </article>
